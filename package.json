@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-awesome-loaders": "^0.1.37",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5"
   },
@@ -36,16 +35,14 @@
       "core-js-pure",
       "ejs",
       "es5-ext",
-      "esbuild",
-      "node-sass"
+      "esbuild"
     ],
     "onlyBuiltDependencies": [
       "core-js",
       "core-js-pure",
       "ejs",
       "es5-ext",
-      "esbuild",
-      "node-sass"
+      "esbuild"
     ]
   }
 }
