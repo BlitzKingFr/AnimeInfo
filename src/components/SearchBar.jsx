@@ -14,7 +14,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -24,7 +24,7 @@ const SearchBar = ({ onSearch }) => {
       <div className="logo-container">
         <img src="/favicon.png" alt="Anime Search Logo" className="logo" />
         <h1 className="app-title">Anime Explorer</h1>
-        <p className="app-subtitle">Discover your next favorite anime</p>
+        <p className="app-subtitle">Find your next favorite anime in seconds</p>
       </div>
       
       <div className="search-wrapper">
@@ -37,16 +37,16 @@ const SearchBar = ({ onSearch }) => {
           </div>
           <input
             type="text"
-            placeholder="Search for anime, manga, characters..."
+            placeholder="Search anime titles..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             className="search-input-field"
             disabled={isSearching}
           />
           <button 
             onClick={handleSearch} 
-            className={`search-button ${isSearching ? 'searching' : ''}`}
+            className={`search-button ${isSearching ? "searching" : ""}`}
             disabled={isSearching || !query.trim()}
           >
             {isSearching ? (
@@ -63,9 +63,9 @@ const SearchBar = ({ onSearch }) => {
         </div>
         
         <div className="search-suggestions">
-          <span className="suggestion-label">Popular searches:</span>
+          <span className="suggestion-label">Try:</span>
           <div className="suggestion-tags">
-            {['Naruto', 'One Piece', 'Attack on Titan', 'Demon Slayer'].map(tag => (
+            {["Naruto", "One Piece", "Attack on Titan", "Demon Slayer"].map((tag) => (
               <button 
                 key={tag}
                 className="suggestion-tag"

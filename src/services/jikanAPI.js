@@ -7,6 +7,12 @@ export async function fetchAnimeByName(query) {
   return data.data; 
 }
 
+export async function fetchTopAnime() {
+  const response = await fetch(`${BASE_URL}/top/anime?limit=24`);
+  const data = await response.json();
+  return data.data;
+}
+
 
 export async function fetchAnimeById(id) {
   const response = await fetch(`${BASE_URL}/anime/${id}`);

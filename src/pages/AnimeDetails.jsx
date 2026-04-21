@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchAnimeById } from "../services/jikanAPI";
 
 function AnimeDetails() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [anime, setAnime] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function getAnime() {
       setLoading(true);
+      setError("");
       try {
         const data = await fetchAnimeById(id);
         setAnime(data);
       } catch (error) {
         console.error("Error fetching anime details:", error);
+        setError("Failed to load anime details.");
       } finally {
         setLoading(false);
       }
@@ -23,22 +25,52 @@ function AnimeDetails() {
     getAnime();
   }, [id]);
 
-  if (loading) return <p className="loading-text">Loading anime details...</p>;
+  if (loading) return <p className="status-text">Loading anime details...</p>;
 
-  if (!anime) return <p className="error-text">Anime details not found.</p>;
+  if (error || !anime) {
+    return (
+      <div className="page-container">
+        <p className="status-text error-text">{error || "Anime details not found."}</p>
+        <Link to="/" className="back-link">
+          Go back home
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="anime-details">
-      
-      <img src={anime.images?.jpg?.image_url} alt={anime.title} />
-      <div className="details-text">
+    <div className="page-container details-page">
+      <Link to="/" className="back-link">
+        ← Back to search
+      </Link>
+      <div className="anime-details">
+        <img src={anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url} alt={anime.title} />
+        <div className="details-text">
         <h1>{anime.title}</h1>
-        <p><strong>Episodes:</strong> {anime.episodes || "Unknown"}</p>
-        <p><strong>Score:</strong> {anime.score || "N/A"}</p>
-        <p><strong>Synopsis:</strong> {anime.synopsis || "No synopsis available."}</p>
+        <div className="details-metrics">
+          <span>Status: {anime.status || "Unknown"}</span>
+          <span>Episodes: {anime.episodes || "Unknown"}</span>
+          <span>Score: {anime.score || "N/A"}</span>
+          <span>Year: {anime.year || "N/A"}</span>
+        </div>
+        <p>{anime.synopsis || "No synopsis available."}</p>
+        {anime.genres?.length > 0 && (
+          <div className="genre-list">
+            {anime.genres.map((genre) => (
+              <span key={genre.mal_id} className="genre-pill">
+                {genre.name}
+              </span>
+            ))}
+          </div>
+        )}
+        {anime.trailer?.url && (
+          <a href={anime.trailer.url} target="_blank" rel="noreferrer" className="trailer-link">
+            Watch trailer
+          </a>
+        )}
       </div>
     </div>
-    //error
+    </div>
   );
 }
 
