@@ -7,6 +7,11 @@ function AnimeDetails() {
   const [anime, setAnime] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const embedYoutubeId = anime?.trailer?.embed_url?.match(/\/embed\/([^?&/]+)/)?.[1];
+  const trailerUrl =
+    anime?.trailer?.url ||
+    (anime?.trailer?.youtube_id ? `https://www.youtube.com/watch?v=${anime.trailer.youtube_id}` : null) ||
+    (embedYoutubeId ? `https://www.youtube.com/watch?v=${embedYoutubeId}` : null);
 
   useEffect(() => {
     async function getAnime() {
@@ -63,8 +68,8 @@ function AnimeDetails() {
             ))}
           </div>
         )}
-        {anime.trailer?.url && (
-          <a href={anime.trailer.url} target="_blank" rel="noreferrer" className="trailer-link">
+        {trailerUrl && (
+          <a href={trailerUrl} target="_blank" rel="noreferrer" className="trailer-link">
             Watch trailer
           </a>
         )}
